@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../firebase/firebase.init";
 import { useState } from 'react';
 
@@ -26,6 +26,10 @@ const LoginBootstrap = () => {
             })
     }
 
+    const handleForgetPassword = () => {
+        sendPasswordResetEmail(auth,)
+    }
+
 
     return (
         <div className='w-50 mx-auto'>
@@ -44,6 +48,7 @@ const LoginBootstrap = () => {
             {success && <p>Succesfully login to the account</p>}
             <br />
             <p><small>New to this Website? Please  <Link to='/register'>Register</Link></small></p>
+            <p>Forget password? <button type="button" onClick={handleForgetPassword} className="btn btn-link">Please Reset</button></p>
         </div>
     );
 };

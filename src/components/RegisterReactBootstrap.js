@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from "firebase/auth";
 import React from 'react';
 import { useState } from "react";
 import { Link } from 'react-router-dom'
@@ -20,10 +20,10 @@ const RegisterReactBootstrap = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
-        if (!/(?=.*[A-Z].*[A-Z])/.test(password)) {
-            setpasswordError('Please provide at least two uppercase');
-            return;
-        }
+        // if (!/(?=.*[A-Z].*[A-Z])/.test(password)) {
+        //     setpasswordError('Please provide at least two uppercase');
+        //     return;
+        // }
         if (password.length < 6) {
             setpasswordError('Please should be at least 6 character');
             return;
@@ -39,10 +39,18 @@ const RegisterReactBootstrap = () => {
                 console.log(user);
                 setSuccess(true);
                 form.reset();
+                verifyEmail();
             })
             .catch(error => {
                 console.error('error', error);
                 setpasswordError(error.message)
+            })
+    }
+
+    const verifyEmail = () => {
+        sendEmailVerification(auth.currentUser)
+            .then(() => {
+                alert('Please check your email and verify your email address.')
             })
     }
 
