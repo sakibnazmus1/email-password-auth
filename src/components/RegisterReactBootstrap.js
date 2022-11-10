@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile } from "firebase/auth";
 import React from 'react';
 import { useState } from "react";
 import { Link } from 'react-router-dom'
@@ -17,9 +17,13 @@ const RegisterReactBootstrap = () => {
         event.preventDefault();
         setSuccess(false);
         const form = event.target;
+        const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        console.log(name, email, password);
+
+        // /validate password/ 
+
         // if (!/(?=.*[A-Z].*[A-Z])/.test(password)) {
         //     setpasswordError('Please provide at least two uppercase');
         //     return;
@@ -40,6 +44,7 @@ const RegisterReactBootstrap = () => {
                 setSuccess(true);
                 form.reset();
                 verifyEmail();
+                updateUserName(name);
             })
             .catch(error => {
                 console.error('error', error);
@@ -54,10 +59,26 @@ const RegisterReactBootstrap = () => {
             })
     }
 
+    const updateUserName = (name) => {
+        updateProfile(auth.currentUser, {
+            displayName: name
+        })
+            .then(() => {
+                console.log('display name updated')
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }
+
     return (
         <div className='w-50 mx-auto'>
             <h2 className='text-danger'>Please Register!!!</h2>
             <Form onSubmit={handleRegister}>
+                <Form.Group className="mb-3" controlId="formBasicName">
+                    <Form.Label>Your Name</Form.Label>
+                    <Form.Control type="text" name='name' placeholder="Enter Name" required />
+                </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" name='email' placeholder="Enter email" required />
