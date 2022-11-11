@@ -3,10 +3,7 @@ import { Outlet, Link } from 'react-router-dom';
 const Main = () => {
     return (
         <div>
-            <nav>
-                <Link to='/login'>Login</Link>
-                <Link to='/register'>Register</Link>
-            </nav>
+            <h3><small>My Email Password Authentication</small></h3>
             <Outlet></Outlet>
         </div>
     );
